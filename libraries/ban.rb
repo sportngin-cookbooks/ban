@@ -60,9 +60,9 @@ class Chef
         flags = { 
           '-A' => 'INPUT', 
           '-s' => ip, 
-          '-j' => 'DROP', 
-          '-m' => 'comment', 
-          '--comment' => 'chef' 
+          '-j' => 'DROP',
+          '--comment' => 'chef',
+          '-m' => 'comment'
         }
         
         # port flags
