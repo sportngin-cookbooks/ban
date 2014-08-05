@@ -57,23 +57,23 @@ class Chef
       
       def add_rule(ip, port = nil)
         # default flags
-        flags = { 
-          '-A' => 'INPUT', 
-          '-s' => ip, 
-          '-j' => 'DROP',
-          '--comment' => 'chef',
-          '-m' => 'comment'
-        }
+        flags = [
+          ['-A','INPUT'],
+          ['-s',ip],
+          ['-j','DROP'],
+          ['-m','comment'],
+          ['--comment','chef']
+        ]
         
         # port flags
-        flags.merge!('-p' => 'tcp', '--dport' => port) if port
+        flags.concat!([['-p','tcp'],['--dport',port]]) if port
         
         # execute command
         iptables(flags)
       end
       
       def iptables(flags = {})
-        command = flags.inject('iptables'){|m,(k,v)| m << " #{k} #{v}"}
+        command = flags.inject('iptables'){|m,e| m << " #{e[0]} #{e[1]}"}
         Chef::Log.info "Running: #{command}"
         run_command(:command => command)
       end
